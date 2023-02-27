@@ -1,0 +1,64 @@
+/*
+Theme Name: Wonder
+*/
+.wpcf7-not-valid{
+	border-bottom:1px solid red!important;
+}
+.wpcf7-not-valid-tip, .wpcf7-validation-errors{
+	display:none!important;
+}
+.wpcf7-response-output{
+	display: none;
+}
+.hidden{
+	display: none;
+}
+.contacts-grid .text-3 .form input {
+	margin-bottom: 0px!important;
+}
+
+.gap-sertificate {
+    grid-gap: 10px;
+    display: flex;
+    /* grid-template-rows: repeat(2, 1fr); */
+}
+
+.img-sertificate {
+    /* grid-area: 1 / 1 / 2 / 2; */
+    overflow: hidden;
+    /* aspect-ratio: 1 / 1; */
+  
+    width: 50%;
+}
+
+.img-sertificate img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+@media screen and (max-width: 900px){
+	
+	.company-stat iframe {
+	height:320px;
+}
+
+.img-sertificate {
+    /* grid-area: 1 / 1 / 2 / 2; */
+    overflow: hidden;
+    /* aspect-ratio: 1 / 1; */
+    cursor: pointer;
+    width: 100%;
+}
+
+.gap-sertificate {
+  
+    margin-bottom: 30px;
+}
+	
+}
+
+.grecaptcha-badge {
+    display: none;
+}
