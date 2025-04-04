@@ -14,7 +14,7 @@ Theme Name: Wonder
 	display: none;
 }
 .contacts-grid .text-3 .form input {
-	margin-bottom: 0px!important;
+	margin-bottom: 0px!important;UI/UX enhancements
 }
 
 .gap-sertificate {
@@ -62,3 +62,41 @@ Theme Name: Wonder
 .grecaptcha-badge {
     display: none;
 }
+
+/* Ensure SVG logo is properly displayed */
+.logo img, .logoF img {
+  display: block !important;
+  max-width: 100%;
+  height: auto;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Fix SVG rendering in different browsers */
+.logo img[src$=".svg"], .logoF img[src$=".svg"] {
+  width: 252px;
+  height: auto;
+}
+
+/* Fix logo on dark backgrounds */
+.header.is-fixed .logo img {
+  filter: none;
+}
+
+/* Fix logo positioning in header */
+.header-container .logo {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 10px 0;
+  z-index: 100;
+  position: relative;
+}
+
+/* Ensure logo is visible on all backgrounds */
+.header.is-fixed .logo img {
+  filter: none;
+}
+
+
+

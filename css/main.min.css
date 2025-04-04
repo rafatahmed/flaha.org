@@ -1657,6 +1657,36 @@ body .header {
 		max-width: 420px;
 	}
 
+/* Fix logo display issues */
+.logo svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Ensure SVG paths are visible */
+.logo svg .plan {
+  fill: #BCBEC0;
+  transition: fill 0.3s ease;
+}
+
+/* Logo color on hover */
+.logo:hover svg .plan {
+  fill: #4CAF50;
+}
+
+/* Fix for mobile logo sizing */
+@media screen and (max-width: 768px) {
+  .logo svg {
+    width: 180px;
+  }
+}
+
+/* Fix for logo in dark backgrounds */
+.footer .logoF svg .plan {
+  fill: #FFFFFF;
+}
+
 	.header-nav__block-head span {
 		border-top: 4px solid #000;
 	}
@@ -3620,6 +3650,36 @@ body.fp-viewing-partners .home-menu {
 	justify-content: flex-start;
 	padding: 8.5%;
 	-webkit-box-sizing: border-box;
+}
+
+/* Ensure logo is properly positioned in header */
+.header-container .logo {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 10px 0;
+}
+
+/* Fix logo animation */
+.logo.js-anim {
+  opacity: 1;
+  transform: none;
+}
+
+.logo.js-anim.anim-right.is-animated {
+  animation: fadeInRight 0.5s ease forwards;
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 	box-sizing: border-box;
 	background-color: rgba(255, 255, 255, 0);
 	-webkit-transition: background-color 0.3s ease, color 0.3s ease;
@@ -21018,3 +21078,5 @@ body:not(.home) .partners-block .block > *:nth-child(-n + 21) {
 		font-size: 1.26vw;
 	}
 }
+
+
