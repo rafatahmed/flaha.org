@@ -48,46 +48,56 @@ $(document).ready(function () {
 	});
 });
 
-// Contact form validation
-$(document).ready(function () {
-	// Fix form submission issues
-	$("form.wpcf7-form").each(function () {
-		// Prevent double submission
-		let submitted = false;
-
-		$(this).on("submit", function (e) {
-			if (submitted) {
-				e.preventDefault();
-				return false;
-			}
-
-			// Validate required fields
-			let isValid = true;
-			$(this)
-				.find('[aria-required="true"]')
-				.each(function () {
-					if (!$(this).val()) {
-						$(this).addClass("wpcf7-not-valid");
-						isValid = false;
-					} else {
-						$(this).removeClass("wpcf7-not-valid");
-					}
-				});
-
-			if (!isValid) {
-				e.preventDefault();
-				return false;
-			}
-
-			submitted = true;
-			setTimeout(() => {
-				submitted = false;
-			}, 5000);
-		});
-
-		// Fix phone input mask
-		$(this).find('input[name="your-phone"]').mask("+99 (999) 999-9999");
-	});
+// Better form validation
+$(document).ready(function() {
+    $("form.wpcf7-form").each(function() {
+        const form = $(this);
+        let submitted = false;
+        
+        // Validate on input to provide immediate feedback
+        form.find('[aria-required="true"]').on('input blur', function() {
+            if (!$(this).val().trim()) {
+                $(this).addClass("wpcf7-not-valid");
+            } else {
+                $(this).removeClass("wpcf7-not-valid");
+            }
+        });
+        
+        // Validate on submit
+        form.on("submit", function(e) {
+            if (submitted) {
+                e.preventDefault();
+                return false;
+            }
+            
+            let isValid = true;
+            form.find('[aria-required="true"]').each(function() {
+                if (!$(this).val().trim()) {
+                    $(this).addClass("wpcf7-not-valid");
+                    isValid = false;
+                }
+            });
+            
+            // Email validation
+            const emailField = form.find('input[type="email"]');
+            if (emailField.length && emailField.val() && !isValidEmail(emailField.val())) {
+                emailField.addClass("wpcf7-not-valid");
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                return false;
+            }
+            
+            submitted = true;
+            setTimeout(() => { submitted = false; }, 5000);
+        });
+    });
+    
+    function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
 });
 
 // Smooth scrolling for anchor links
@@ -179,3 +189,4 @@ $(document).ready(function () {
 		window.open(shareUrl, "_blank", "width=600,height=400");
 	});
 });
+
