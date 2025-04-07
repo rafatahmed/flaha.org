@@ -1,192 +1,91 @@
 /** @format */
 
-$(document).ready(function () {
-	$(".header-nav__block-list a").click(function (e) {
-		e.preventDefault();
-		var country = $(this).attr("data-name");
-		$(".header-nav__block-list a").removeClass("active");
-		$(this).addClass("active");
-		$("#currentcountry").text(country);
-		$(".header-nav").removeClass("opened");
-		var link = $(this).attr("href");
-		var data = {
-			action: "changecountry",
-			country: country,
-		};
-		$.ajax({
-			url: ajaxurl, // обработчик
-			data: data, // данные
-			type: "POST", // тип запроса
-			success: function (data) {
-				window.location.href = link;
+document.addEventListener("DOMContentLoaded", function () {
+	// Chart.js implementation for yield trends
+	const ctx = document.getElementById("yieldChart").getContext("2d");
+
+	const yieldChart = new Chart(ctx, {
+		type: "bar",
+		data: {
+			labels: ["2018", "2019", "2020", "2021", "2022", "2023"],
+			datasets: [
+				{
+					label: "Crop Yield (tons/hectare)",
+					data: [5.2, 5.7, 6.8, 7.9, 8.6, 9.2],
+					backgroundColor: [
+						"rgba(76, 175, 80, 0.6)",
+						"rgba(76, 175, 80, 0.6)",
+						"rgba(76, 175, 80, 0.6)",
+						"rgba(76, 175, 80, 0.6)",
+						"rgba(76, 175, 80, 0.6)",
+						"rgba(76, 175, 80, 0.6)",
+					],
+					borderColor: [
+						"rgba(76, 175, 80, 1)",
+						"rgba(76, 175, 80, 1)",
+						"rgba(76, 175, 80, 1)",
+						"rgba(76, 175, 80, 1)",
+						"rgba(76, 175, 80, 1)",
+						"rgba(76, 175, 80, 1)",
+					],
+					borderWidth: 1,
+				},
+			],
+		},
+		options: {
+			responsive: true,
+			scales: {
+				y: {
+					beginAtZero: true,
+					title: {
+						display: true,
+						text: "Yield (tons/hectare)",
+					},
+				},
+				x: {
+					title: {
+						display: true,
+						text: "Year",
+					},
+				},
 			},
+		},
+	});
+
+	// Smooth scrolling for navigation links
+	document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+		anchor.addEventListener("click", function (e) {
+			e.preventDefault();
+
+			const targetId = this.getAttribute("href");
+			const targetElement = document.querySelector(targetId);
+
+			window.scrollTo({
+				top: targetElement.offsetTop - 70,
+				behavior: "smooth",
+			});
 		});
 	});
 
-	$("#btnsubmit").click(function (e) {
-		e.preventDefault();
-		$(this).closest(".contacts-grid").find("form #formbutton").click();
-	});
+	// Form submission handling
+	const contactForm = document.getElementById("contact-form");
 
-	$("#fertilizer").val($("h1").text());
-});
-
-// Language switcher functionality
-$(document).ready(function () {
-	// Handle language selection
-	$(".language-switcher a").click(function (e) {
-		e.preventDefault();
-		var lang = $(this).data("lang");
-		var href = $(this).attr("href");
-
-		// Set cookie for language preference
-		document.cookie =
-			"preferred_language=" + lang + "; path=/; max-age=31536000";
-
-		// Redirect to the appropriate language page
-		window.location.href = href;
-	});
-});
-
-// Better form validation
-$(document).ready(function() {
-    $("form.wpcf7-form").each(function() {
-        const form = $(this);
-        let submitted = false;
-        
-        // Validate on input to provide immediate feedback
-        form.find('[aria-required="true"]').on('input blur', function() {
-            if (!$(this).val().trim()) {
-                $(this).addClass("wpcf7-not-valid");
-            } else {
-                $(this).removeClass("wpcf7-not-valid");
-            }
-        });
-        
-        // Validate on submit
-        form.on("submit", function(e) {
-            if (submitted) {
-                e.preventDefault();
-                return false;
-            }
-            
-            let isValid = true;
-            form.find('[aria-required="true"]').each(function() {
-                if (!$(this).val().trim()) {
-                    $(this).addClass("wpcf7-not-valid");
-                    isValid = false;
-                }
-            });
-            
-            // Email validation
-            const emailField = form.find('input[type="email"]');
-            if (emailField.length && emailField.val() && !isValidEmail(emailField.val())) {
-                emailField.addClass("wpcf7-not-valid");
-                isValid = false;
-            }
-            
-            if (!isValid) {
-                e.preventDefault();
-                return false;
-            }
-            
-            submitted = true;
-            setTimeout(() => { submitted = false; }, 5000);
-        });
-    });
-    
-    function isValidEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-});
-
-// Smooth scrolling for anchor links
-$(document).ready(function () {
-	$('a[href^="#"]').on("click", function (e) {
+	contactForm.addEventListener("submit", function (e) {
 		e.preventDefault();
 
-		var target = $(this.hash);
-		if (target.length) {
-			$("html, body").animate(
-				{
-					scrollTop: target.offset().top,
-				},
-				1000
-			);
-		}
+		// Get form values
+		const name = contactForm.querySelector('input[name="name"]').value;
+		const email = contactForm.querySelector('input[name="email"]').value;
+		const message = contactForm.querySelector('textarea[name="message"]').value;
+
+		// Here you would typically send this data to a server
+		// For demo purposes, we'll just log it and show a success message
+		console.log("Form submission:", { name, email, message });
+
+		// Show success message
+		alert("Thanks for your message! We will get back to you soon.");
+
+		// Reset form
+		contactForm.reset();
 	});
 });
-
-// Enhanced lazy loading for images
-$(document).ready(function () {
-	// Initialize lazy loading for all images with data-src attribute
-	const observer = lozad(".lazyload", {
-		rootMargin: "10px 0px",
-		threshold: 0.1,
-		loaded: function (el) {
-			el.classList.add("loaded");
-			// Add fade-in animation
-			el.style.opacity = 0;
-			setTimeout(function () {
-				el.style.transition = "opacity 0.5s ease-in-out";
-				el.style.opacity = 1;
-			}, 100);
-		},
-	});
-	observer.observe();
-});
-
-// Cookie consent functionality
-$(document).ready(function () {
-	// Check if user has already made a choice
-	if (!localStorage.getItem("cookieConsent")) {
-		$("#cookie-consent").show();
-	}
-
-	// Handle accept button
-	$("#accept-cookies").click(function () {
-		localStorage.setItem("cookieConsent", "accepted");
-		$("#cookie-consent").hide();
-	});
-
-	// Handle decline button
-	$("#decline-cookies").click(function () {
-		localStorage.setItem("cookieConsent", "declined");
-		$("#cookie-consent").hide();
-
-		// Disable analytics and tracking cookies
-		// This is a placeholder - implement according to your tracking solution
-		window["ga-disable-UA-XXXXXXXX-X"] = true;
-	});
-});
-
-// Social media sharing functionality
-$(document).ready(function () {
-	$(".share-button").click(function (e) {
-		e.preventDefault();
-
-		var platform = $(this).data("platform");
-		var url = encodeURIComponent(window.location.href);
-		var title = encodeURIComponent(document.title);
-		var shareUrl;
-
-		switch (platform) {
-			case "facebook":
-				shareUrl = "https://www.facebook.com/sharer/sharer.php?u=" + url;
-				break;
-			case "twitter":
-				shareUrl =
-					"https://twitter.com/intent/tweet?url=" + url + "&text=" + title;
-				break;
-			case "linkedin":
-				shareUrl = "https://www.linkedin.com/sharing/share-offsite/?url=" + url;
-				break;
-			case "whatsapp":
-				shareUrl = "https://api.whatsapp.com/send?text=" + title + " " + url;
-				break;
-		}
-
-		window.open(shareUrl, "_blank", "width=600,height=400");
-	});
-});
-
