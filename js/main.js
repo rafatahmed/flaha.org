@@ -436,4 +436,83 @@ document.addEventListener("DOMContentLoaded", function () {
 	// Initialize chart sizing
 	resizeCharts();
 	window.addEventListener('resize', resizeCharts);
+
+	// Improved chart responsiveness
+	function setupResponsiveCharts() {
+		// Define chart options for mobile
+		const isMobile = window.innerWidth < 768;
+		const isTablet = window.innerWidth < 992 && window.innerWidth >= 768;
+		
+		// Adjust legend display on mobile
+		if (isMobile) {
+			// For ROI chart (doughnut)
+			if (roiChart) {
+				roiChart.options.plugins.legend.position = 'bottom';
+				roiChart.options.plugins.legend.labels.boxWidth = 10;
+				roiChart.options.plugins.legend.labels.font = { size: 10 };
+			}
+			
+			// For all charts - reduce font sizes
+			[yieldChart, resourceChart, healthChart].forEach(chart => {
+				if (!chart) return;
+				
+				// Reduce axis label font size
+				if (chart.options.scales && chart.options.scales.y) {
+					chart.options.scales.y.ticks = { 
+						font: { size: 10 },
+						maxRotation: 0
+					};
+					chart.options.scales.y.title.font = { size: 11 };
+				}
+				
+				if (chart.options.scales && chart.options.scales.x) {
+					chart.options.scales.x.ticks = { 
+						font: { size: 10 },
+						maxRotation: 0
+					};
+					chart.options.scales.x.title.font = { size: 11 };
+				}
+				
+				// Adjust legend
+				chart.options.plugins.legend.labels = {
+					boxWidth: 10,
+					font: { size: 10 }
+				};
+				
+				chart.update();
+			});
+		}
+		
+		// Force chart container sizes
+		document.querySelectorAll('.chart-container').forEach(chartContainer => {
+			const parent = chartContainer.parentElement;
+			chartContainer.style.width = '100%';
+			chartContainer.style.maxWidth = '100%';
+		});
+	}
+
+	// Call this function on load and resize
+	setupResponsiveCharts();
+	window.addEventListener('resize', function() {
+		setupResponsiveCharts();
+		
+		// Redraw charts after resize
+		setTimeout(() => {
+			if (yieldChart) yieldChart.update();
+			if (resourceChart) resourceChart.update();
+			if (healthChart) resourceChart.update();
+			if (roiChart) roiChart.update();
+		}, 100);
+	});
+
+	// Fix chart scaling issues on orientation change (especially for mobile)
+	window.addEventListener('orientationchange', function() {
+		setTimeout(() => {
+			setupResponsiveCharts();
+			if (yieldChart) yieldChart.update();
+			if (resourceChart) resourceChart.update();
+			if (healthChart) healthChart.update();
+			if (roiChart) roiChart.update();
+		}, 200);
+	});
 });

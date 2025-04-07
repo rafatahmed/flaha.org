@@ -416,6 +416,142 @@ canvas {
 	height: auto !important;
 }
 
+/* Data Visualization Section - Mobile Fixes */
+#data-viz {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f9f9f9 0%, #e6f7e6 100%);
+    overflow: hidden;
+}
+
+#data-viz .container {
+    padding: 0 20px; /* Add padding to the container instead */
+}
+
+.data-viz-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px; /* Reduced from 30px for mobile */
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+.data-viz-item {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    padding: 20px; /* Slightly reduced padding for mobile */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    overflow: hidden; /* Prevent any chart overflow */
+}
+
+.chart-container {
+    position: relative;
+    width: 100% !important; /* Force 100% width */
+    height: 300px !important; /* Fixed height */
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.main-chart .chart-container {
+    height: 300px !important; /* More consistent height */
+}
+
+/* Responsive adjustments for the charts */
+@media (max-width: 992px) {
+    .data-viz-grid {
+        grid-template-columns: 1fr; /* Single column on tablets */
+        gap: 25px;
+    }
+    
+    .main-chart {
+        grid-column: 1;
+    }
+    
+    .chart-container, 
+    .main-chart .chart-container {
+        height: 280px !important; /* Consistent height on tablets */
+    }
+    
+    .data-viz-item h3 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #data-viz {
+        padding: 60px 0;
+    }
+    
+    #data-viz .section-subtitle {
+        font-size: 1rem;
+        margin-bottom: 30px;
+    }
+    
+    .data-viz-grid {
+        gap: 20px;
+    }
+    
+    .data-viz-item {
+        padding: 15px;
+    }
+    
+    .data-viz-item h3 {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+    }
+    
+    .data-viz-item p {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    
+    .chart-container,
+    .main-chart .chart-container {
+        height: 250px !important; /* Smaller height on mobile */
+    }
+    
+    .insights-callout {
+        padding: 25px 15px;
+    }
+    
+    .insight-stats {
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    
+    .stat-item {
+        width: 45%;
+        padding: 10px 5px;
+        margin-bottom: 10px;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+    }
+    
+    .stat-label {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-item {
+        width: 100%; /* Full width on very small screens */
+        margin-bottom: 15px;
+    }
+    
+    .chart-container,
+    .main-chart .chart-container {
+        height: 220px !important; /* Even smaller height on small mobile */
+    }
+    
+    .insights-callout .cta-button {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+}
+
 /* Contact Section */
 #contact {
 	padding: 80px 20px;
